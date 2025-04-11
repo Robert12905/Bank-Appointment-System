@@ -17,7 +17,7 @@
 #include <string>
 #define TABLESIZE 100
 
-using namespacestd;
+using namespace std;
 
 //_________________________________________________________________________________________________________________________________________
 
@@ -38,12 +38,12 @@ using namespacestd;
 
 //_________________________________________________________________________________________________________________________________________
 
-struct date {                                                                  // This Structure will hold appointment dates, allowing for users to pick available timeslots on those days
-	int day;
-	int month;
-	int year;
+struct Date {                                                                  // This Structure will hold appointment dates, allowing for users to pick available timeslots on those days
+    int day;
+    int month;
+    int year;
 
-	Date(int d, int m, int y) : day(d), month(m), year(y) {}
+    Date(int d, int m, int y) : day(d), month(m), year(y) {}
 
 };
 //_________________________________________________________________________________________________________________________________________
@@ -64,14 +64,15 @@ struct date {                                                                  /
 //struct PhoneNumber holds our record--
 //that being a name and associated number
 
-struct PhoneNumber {                                                           // This structure holds name, age, and a user-input phone number
+struct PhoneNumber {                                                           // This structure holds name, age, and a user-input phone number, 
+    // Good use in an overall client list
     string name;
     int age;
     string number;
     bool inTable;
 
     //constructor for our struct
-    PhoneNumber(int n, int a, int pN) : name(n), age(a), number(n), inTable(false) {}
+    PhoneNumber(string n, int a, string pn) : name(n), age(a), number(pn), inTable(false) {}
 };
 
 //function to find each names ASCII value
