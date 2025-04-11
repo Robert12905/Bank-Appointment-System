@@ -1,3 +1,5 @@
+//this file at its CURRENT state takes a hard-coded input, lets make it user-input
+
 #include <iostream>
 #include <string>
 using namespace std;
