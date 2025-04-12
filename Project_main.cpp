@@ -14,42 +14,77 @@
 //_________________________________________________________________________________________________________________________________________
 
 #include <iostream>
+#include <vector>
 #include <string>
 #define TABLESIZE 100
 
 using namespace std;
 
 //_________________________________________________________________________________________________________________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//_________________________________________________________________________________________________________________________________________
-
 struct Date {                                                                  // This Structure will hold appointment dates, allowing for users to pick available timeslots on those days
     int day;
     int month;
     int year;
 
     Date(int d, int m, int y) : day(d), month(m), year(y) {}
+    
+    bool operator == (const Date & other) const {                              //'operator==' is a function which directly compares 2 variables when used
+        return year == other.year && month == other.month && day == other.day; // so when a date that is input is directly equal to an already included value -> return true
+    }
 
 };
+
+struct Time {                                                                  // This Structure will hold appointment time, allowing for users to input their desired time if available
+    int hour;
+};
+
+struct Appointment {                                                           
+    int hour;
+    Date date;
+    Time time;
+    string AppDescription;
+};
+
+struct AppointmentNode {                                                       // This Structure will become a node in the linked list assigned alongside 'Client'
+    Appointment appt;
+    AppointmentNode* next;
+};
+
+struct Client {                                                                // This Structure will become the head nodes assigned alongside the AppointmentNode(s)
+    string name;
+    string PhoneNumber;
+    AppointmentNode* head = nullptr;
+};
+//_________________________________________________________________________________________________________________________________________
+
+class AppointmentSystem {
+private: vector<Client> clients;
+
+public:
+    void addClient() {
+
+    }
+
+    void addAppointment(){
+
+    }
+
+    void viewAppointments() {
+
+    }
+
+    void viewSortedClients() {
+
+    }
+
+    void searchClients() {
+
+    }
+
+};
+
 //_________________________________________________________________________________________________________________________________________
 //This code is our saved HASH assignment:
-
-
 
 //creating a hash function that will take the input of a name/phone number and accordingly hash it with a key
 //into a functioning table//
@@ -64,6 +99,7 @@ struct Date {                                                                  /
 //struct PhoneNumber holds our record--
 //that being a name and associated number
 
+
 struct PhoneNumber {                                                           // This structure holds name, age, and a user-input phone number, 
     // Good use in an overall client list
     string name;
@@ -74,6 +110,8 @@ struct PhoneNumber {                                                           /
     //constructor for our struct
     PhoneNumber(string n, int a, string pn) : name(n), age(a), number(pn), inTable(false) {}
 };
+
+
 
 //function to find each names ASCII value
 int hashFun(const string& key) {                                //named hashFun, because of underlying error with 'hash'
@@ -89,6 +127,8 @@ int hashFun(const string& key) {                                //named hashFun,
     return ASCII % TABLESIZE;
 
 }
+
+
 
 //director class which will store phone numbers USING a hash table
 class PhoneDirector {
@@ -135,5 +175,55 @@ public:
 
 int main() {
 
+    cout << "Welcome to the Appointment Scheduler and Client Database."<<endl<<endl;
 
+    while (true) {
+
+        cout << "Please choose from the folloing options:" << endl << endl;
+        int selection;
+
+        //Here is what we want the choice between:
+        cout << "1) Appointment Menu: " << endl << endl << "2) Client Menu: " << endl << endl << "3) Exit Program: " << endl << endl;
+
+        cin >> selection;
+
+        switch (selection) {
+
+
+        //Case 1: Appointments Tab
+        case 1 :
+                cout << endl;
+                //Appointments
+                    //add appointments (by date)
+                    //search appointments (by date/by name)
+                    //view appointments
+                cout << "case 1" << endl << endl;
+                break;
+
+
+        //Case 2: Clients Tab
+        case 2:
+                cout << endl;
+            //Clients
+                //search clients
+                    //manual search
+                    //alphabetical sort
+            cout << "case 2" << endl << endl;
+                break;
+
+
+        case 3:
+                cout << endl;
+                cout << "Exiting. . .";
+            return 0;
+
+
+        default:
+            cout << "Please choose an availabe option.";
+                break;
+
+
+        };
+    }
+    return 0;
 };
