@@ -61,9 +61,6 @@ class AppointmentSystem {
 private: vector<Client> clients;
 
 public:
-    void addClient() {
-
-    }
 
     void addAppointment(){
 
