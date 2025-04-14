@@ -16,19 +16,39 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+//timer libraries:
+#include <chrono>
+#include <thread>
+
+//_________________________________________________________________________________________________________________________________________
+
+
 #define TABLESIZE 100
 
 using namespace std;
 
+
 //_________________________________________________________________________________________________________________________________________
+
+//delay code for switch statements
+
+void delayOutput(int seconds) {
+    this_thread::sleep_for(chrono::seconds(seconds)
+}
+
+
+
+//_________________________________________________________________________________________________________________________________________
+
 struct Date {                                                                  // This Structure will hold appointment dates, allowing for users to pick available timeslots on those days
     int day;
     int month;
     int year;
 
     Date(int d, int m, int y) : day(d), month(m), year(y) {}
-    
-    bool operator == (const Date & other) const {                              //'operator==' is a function which directly compares 2 variables when used
+
+    bool operator == (const Date& other) const {                              //'operator==' is a function which directly compares 2 variables when used
         return year == other.year && month == other.month && day == other.day; // so when a date that is input is directly equal to an already included value -> return true
     }
 
@@ -38,7 +58,7 @@ struct Time {                                                                  /
     int hour;
 };
 
-struct Appointment {                                                           
+struct Appointment {
     int hour;
     Date date;
     Time time;
@@ -62,7 +82,7 @@ private: vector<Client> clients;
 
 public:
 
-    void addAppointment(){
+    void addAppointment() {
 
     }
 
@@ -172,9 +192,10 @@ public:
 
 int main() {
 
-    cout << "Welcome to the Appointment Scheduler and Client Database."<<endl<<endl;
+    cout << "Welcome to the Appointment Scheduler and Client Database." << endl << endl;
 
     while (true) {
+        system("cls");
 
         cout << "Please choose from the folloing options:" << endl << endl;
         int selection;
@@ -186,41 +207,110 @@ int main() {
 
         switch (selection) {
 
+            int choice;
 
-        //Case 1: Appointments Tab
-        case 1 :
-                cout << endl;
-                //Appointments
+//_________________________________________________________________________________________________________________________________________
+
+                        //---------------------//Case 1: Appointments Tab//---------------------//
+        case 1:
+            system("cls");
+
+            cout << "Appointments Tab:" << endl << endl;                         //Appointments
+
+            cout << "Please Pick from the following:" << endl;
+
+            cout << "\n1)   Add Appointments by Date:" << endl;                //add appointments (by date)
+            cout << "\n2)   Search Appointments by Date: " << endl;            //Search appointments by date
+            cout << "\n3)   View All Appointments: " << endl;                  //View all appointments (by date/by name)
+
+            cout << endl;
+            cin >> choice;
+
+
+
+            int finalOption;
+
+            switch (choice) {
+
+                        //---------------------//Appointment Choices//---------------------//
+
+                switch (finalOption) {
+
+                case 1:
                     //add appointments (by date)
-                    //search appointments (by date/by name)
+
+                    break;
+                case 2:
+                    //search appointments (by date/by name)\
+
+                    break;
+                case 3:
                     //view appointments
-                cout << "case 1" << endl << endl;
-                break;
+
+                    break;
+                }
 
 
-        //Case 2: Clients Tab
+            }
+
+//_________________________________________________________________________________________________________________________________________
+
+
+                            //---------------------//Case 2: Clients Tab//---------------------//
         case 2:
-                cout << endl;
-            //Clients
-                //search clients
-                    //manual search
-                    //alphabetical sort
-            cout << "case 2" << endl << endl;
+            system("cls");
+
+            cout << "Clients Tab :" << endl << endl;                           //Clients
+
+
+            cout << "Please Pick from the following:" << endl;
+
+            cout << "\n1)   Add Client(: " << endl;                          //addClients
+            cout << "\n2)   Search Clients: " << endl;                       //searchClients
+
+            cout << endl;
+            cin >> choice;
+
+            switch (choice) {
+
+                            //---------------------//Client Choices//---------------------//
+
+            case 1:
+
+                //addClients
                 break;
 
+            case 2:
+                //search clients
+                
+                switch (finalOption) {
+
+                case 1:
+                    //manual search
+                    break;
+
+                case 2:
+                    //alphabetical sort
+                    break;
+                }
+            }
+
+
+            break;
+
+//_________________________________________________________________________________________________________________________________________
 
         case 3:
-                cout << endl;
-                cout << "Exiting. . .";
+            cout << endl;
+            cout << "Exiting. . .";
             return 0;
 
+//_________________________________________________________________________________________________________________________________________
 
         default:
-            cout << "Please choose an availabe option.";
-                break;
+            break;
 
-
-        };
+        }
     }
     return 0;
 };
