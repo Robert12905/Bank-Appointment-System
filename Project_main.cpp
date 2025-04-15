@@ -234,20 +234,23 @@ int main() {
 
                         //---------------------//Appointment Choices//---------------------//
 
-                switch (finalOption) {
-
-                case 1:
-                    //add appointments (by date)
-
-                    break;
-                case 2:
-                    //search appointments (by date/by name)\
-
-                    break;
-                case 3:
-                    //view appointments
-
-                    break;
+                switch (choice) {
+                    //---------------------//Appointment Choices//---------------------//
+                    case 1:
+                        //add appointments (by date)
+                        cout << "Adding all appointments by date... \n";
+                        break;
+                    case 2:
+                        //search appointments (by date / by name)
+                        cout << "Searching all appointments...\n";
+                        break;
+                    case 3:
+                        //view appointments
+                        cout << "Viewing all appointment...\n";
+                        break;
+                    default:
+                        cout << "Invalid appointment choice. \n";
+                        break;
                 }
 
 
