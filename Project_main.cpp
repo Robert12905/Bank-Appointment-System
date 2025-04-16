@@ -16,6 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 
 //timer libraries:
 #include <chrono>
@@ -33,8 +34,8 @@ using namespace std;
 
 //delay code for switch statements
 
-void delayOutput(int seconds) {
-    this_thread::sleep_for(chrono::seconds(seconds)
+void delay(int seconds) {
+    this_thread::sleep_for(chrono::seconds(seconds));
 }
 
 
@@ -145,57 +146,92 @@ int hashFun(const string& key) {                                //named hashFun,
 
 }
 
+//_________________________________________________________________________________________________________________________________________
 
-
-//director class which will store phone numbers USING a hash table
-class PhoneDirector {
+class ContactNumber {
 private:
-    //OUR HASH TABLE is defined by TABLESIZE
-    PhoneNumber table[TABLESIZE];
-
+    map<string, string > phoneNumbers;
 public:
 
-    //insertion to hash table function (updates included numbers)
-    void insert(const string& name, const string& number) {
-        //current index value is determined by the current name of hashFun
-        int index = hashFun(name);
-
-        //while the current index value is within the table-
-        while (table[index].inTable) {
-            //if the current name within the index is the same as the current index
-            if (table[index].name == name) {
-                //the current index number will equal the next available number
-                table[index].number = number;
-                return;
-            }
-
-            //index value will then increment by one, and the MODULUS of TABLESIZE with it will then be the next index
-            //value
-            index = (index + 1) % TABLESIZE;
-        }
-        table[index].name = name;
-        table[index].number = number;
-        table[index].inTable = true;
+    void addContact(const string& name, const string& phoneBook) {
+        phoneNumbers[name] = phoneBook;
     }
 
-    //prints the director function
-    void printDirector() {
-        for (int i = 0; i < TABLESIZE; i++) {
-            if (table[i].inTable) {
-                cout << "hash position: " << (i + 1) << ") " << table[i].name << " " << table[i].number << endl;
-            }
+    string getPhoneNumber(const string& name) {
+        auto it = phoneNumbers.find(name);
+        if (it != phoneNumbers.end()) {
+            return it->second;
+        }
+        else {
+            return "Contact not found";
         }
     }
+
+    void removeContact(const string& name) {
+        phoneNumbers.erase(name);
+    }
+
+
 };
+
+//_________________________________________________________________________________________________________________________________________
+
+//director class which will store phone numbers USING a hash table
+//class PhoneDirector {
+//private:
+//    //OUR HASH TABLE is defined by TABLESIZE
+//    PhoneNumber table[TABLESIZE];
+//
+//public:
+//
+//    //insertion to hash table function (updates included numbers)
+//    void insert(const string& name, const string& number) {
+//        //current index value is determined by the current name of hashFun
+//        int index = hashFun(name);
+//
+//        //while the current index value is within the table-
+//        while (table[index].inTable) {
+//            //if the current name within the index is the same as the current index
+//            if (table[index].name == name) {
+//                //the current index number will equal the next available number
+//                table[index].number = number;
+//                return;
+//            }
+//
+//            //index value will then increment by one, and the MODULUS of TABLESIZE with it will then be the next index
+//            //value
+//            index = (index + 1) % TABLESIZE;
+//        }
+//        table[index].name = name;
+//        table[index].number = number;
+//        table[index].inTable = true;
+//    }
+//
+//    //prints the director function
+//    void printDirector() {
+//        for (int i = 0; i < TABLESIZE; i++) {
+//            if (table[i].inTable) {
+//                cout << "hash position: " << (i + 1) << ") " << table[i].name << " " << table[i].number << endl;
+//            }
+//        }
+//    }
+//};
 
 //_________________________________________________________________________________________________________________________________________
 
 int main() {
 
+
+    ContactNumber contact;
+
+    int seconds;
+
+    string name, number;
+
     cout << "Welcome to the Appointment Scheduler and Client Database." << endl << endl;
 
     while (true) {
-        system("cls");
+
 
         cout << "Please choose from the folloing options:" << endl << endl;
         int selection;
@@ -234,23 +270,20 @@ int main() {
 
                         //---------------------//Appointment Choices//---------------------//
 
-                switch (choice) {
-                    //---------------------//Appointment Choices//---------------------//
-                    case 1:
-                        //add appointments (by date)
-                        cout << "Adding all appointments by date... \n";
-                        break;
-                    case 2:
-                        //search appointments (by date / by name)
-                        cout << "Searching all appointments...\n";
-                        break;
-                    case 3:
-                        //view appointments
-                        cout << "Viewing all appointment...\n";
-                        break;
-                    default:
-                        cout << "Invalid appointment choice. \n";
-                        break;
+                switch (finalOption) {
+
+                case 1:
+                    //add appointments (by date)
+
+                    break;
+                case 2:
+                    //search appointments (by date/by name)\
+
+                    break;
+                case 3:
+                    //view appointments
+
+                    break;
                 }
 
 
@@ -261,6 +294,8 @@ int main() {
 
                             //---------------------//Case 2: Clients Tab//---------------------//
         case 2:
+
+
             system("cls");
 
             cout << "Clients Tab :" << endl << endl;                           //Clients
@@ -268,52 +303,63 @@ int main() {
 
             cout << "Please Pick from the following:" << endl;
 
-            cout << "\n1)   Add Client(: " << endl;                          //addClients
-            cout << "\n2)   Search Clients: " << endl;                       //searchClients
+            cout << "1. Add Contact" << endl;
+            cout << "2. Get Number" << endl;
+            cout << "3. Remove Contact" << endl;
+            cout << "0. Exit" << endl;
+            cout << "Enter your choice: ";
+
+            cin >> choice;
+            cin.ignore(); // Clear newline from buffer
 
             cout << endl;
-            cin >> choice;
-
-            switch (choice) {
 
                             //---------------------//Client Choices//---------------------//
 
-            case 1:
 
-                //addClients
-                break;
+                switch (choice) {
+                    case 1:
+                        cout << "Enter name: ";
+                        getline(cin, name);
+                        cout << "Enter phone number: ";
+                        getline(cin, number);
+                        contact.addContact(name, number);
+                        cout << "Contact added!" << endl << endl;
 
-            case 2:
-                //search clients
-                
-                switch (finalOption) {
+                       
+                        break;
+                    case 2:
+                        cout << "Enter name to search: ";
+                        getline(cin, name);
+                        cout << "Phone Number: " << contact.getPhoneNumber(name) << endl << endl;
 
-                case 1:
-                    //manual search
-                    break;
 
-                case 2:
+                        break;
+                    case 3:
+                        cout << "Enter name to remove: ";
+                        getline(cin, name);
+                        contact.removeContact(name);
+                        cout << "Contact removed!" << endl << endl;
+                        break;
+
+                    case 0:
+                        cout << "You have exited the program." << endl;
+                        return 0;
+                    
+                    default:
+
+                        cout << "Invalid Choice. Try Again." << endl << endl;
+                        break;
+                    }
+
+               // case ?:
                     //alphabetical sort
-                    break;
+                    //break;
                 }
             }
 
 
-            break;
-
-//_________________________________________________________________________________________________________________________________________
-
-        case 3:
-            cout << endl;
-            cout << "Exiting. . .";
             return 0;
-
 //_________________________________________________________________________________________________________________________________________
-
-        default:
-            break;
-
-        }
-    }
-    return 0;
-};
+        };
+    
