@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+//timer libraries:
+#include <chrono>
+#include <thread>
+
+//_________________________________________________________________________________________________________________________________________
+
+
+#define TABLESIZE 100
+
+using namespace std;
+
+
+class ContactNumber{
+private:
+    map<string, string > phoneNumbers;
+public:
+
+    void addContact(const string& name, const string& phoneBook){
+        phoneNumbers[name] = phoneBook;
+    }
+
+    string getPhoneNumber (const string& name){
+        auto it = phoneNumbers.find(name);
+        if (it != phoneNumbers.end()){
+            return it -> second;
+        } else{
+            return "Contact not found";
+        }
+    }
+
+    void removeContact (const string& name){
+        phoneNumbers.erase(name);
+    }
+
+
+};
+
+int main() {
+
+    ContactNumber contact;
+    int choice;
+    string name, number;
+
+    while (true) {
+        cout << "1. Add Contact" << endl;
+        cout << "2. Get Number" << endl;
+        cout << "3. Remove Contact" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore(); // Clear newline from buffer
+
+        switch (choice) {
+            case 1:
+                cout << "Enter name: ";
+                getline(cin, name);
+                cout << "Enter phone number: ";
+                getline(cin, number);
+                contact.addContact(name, number);
+                cout << "Contact added!" << endl << endl;
+                break;
+            case 2:
+                cout << "Enter name to search: ";
+                getline(cin, name);
+                cout << "Phone Number: " << contact.getPhoneNumber(name) << endl << endl;
+                break;
+            case 3:
+                cout << "Enter name to remove: ";
+                getline(cin, name);
+                contact.removeContact(name);
+                cout << "Contact removed!" << endl << endl;
+                break;
+            case 0:
+                cout << "You have exited the program." << endl;
+                return 0;
+            default:
+                cout << "Invalid Choice. Try Again." << endl << endl;
+                break;
+        }
+    }
