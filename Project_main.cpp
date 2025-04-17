@@ -219,21 +219,6 @@ public:
 };
 
 //_________________________________________________________________________________________________________________________________________
-//This code is our saved HASH assignment:
-
-//creating a hash function that will take the input of a name/phone number and accordingly hash it with a key
-//into a functioning table//
-
-//--Design a class to store and retrieve phone numbers by names--//
-
-//Open Addressing--//
-//In open addressing, all elements are stored in the hash table itself. Each table entry contains either a
-//record or NIL. When searching for an element, we examine the table slots one by one until the desired element is
-//found or it is clear that the element is not in the table.
-
-//struct PhoneNumber holds our record--
-//that being a name and associated number
-
 
 struct PhoneNumber {                                                           // This structure holds name, age, and a user-input phone number, 
     // Good use in an overall client list
