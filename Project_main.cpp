@@ -30,15 +30,6 @@
 
 using namespace std;
 
-
-//_________________________________________________________________________________________________________________________________________
-
-//delay code for switch statements
-
-void delay(int seconds) {
-    this_thread::sleep_for(chrono::seconds(seconds));
-}
-
 //_________________________________________________________________________________________________________________________________________
 
 struct Date {                                                                  // This Structure will hold appointment dates, allowing for users to pick available timeslots on those days
