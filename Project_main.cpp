@@ -83,18 +83,111 @@ private: vector<Client> clients;
 
 public:
 
+    // Function to add a new appointment for a client
     void addAppointment() {
-
+        string name, phone, desc;
+        int day, month, year, hour;
+    
+        // Get client details and appointment info from user
+        cout << "Enter client's name: ";
+        cin.ignore(); // Clear input buffer
+        getline(cin, name);
+    
+        cout << "Enter phone number: ";
+        getline(cin, phone);
+    
+        cout << "Enter the appointment description: ";
+        getline(cin, desc);
+    
+        cout << "Enter date (dd mm yyyy): ";
+        cin >> day >> month >> year;
+    
+        cout << "Enter hour (0-23): ";
+        cin >> hour;
+    
+        // Search for an existing client using name and phone number
+        Client* clientPtr = nullptr;
+        for (auto& client : clients) {
+            if (client.name == name && client.PhoneNumber == phone) {
+                clientPtr = &client;  // Found existing client
+                break;
+            }
+        }
+    
+        // If client not found, create and add a new client
+        if (!clientPtr) {
+            Client newClient;
+            newClient.name = name;
+            newClient.PhoneNumber = phone;
+            clients.push_back(newClient);
+            clientPtr = &clients.back();  // Get pointer to the newly added client
+        }
+    
+        // Create a new appointment node
+        AppointmentNode* newNode = new AppointmentNode{
+            {hour, Date(day, month, year), {hour}, desc}, // Initialize appointment details
+            nullptr // Set next to nullptr initially
+        };
+        newNode->appt.date = Date(day, month, year); // Set date
+        newNode->appt.time.hour = hour;              // Set hour
+        newNode->appt.AppDescription = desc;         // Set description
+        newNode->next = nullptr;                     // No next yet
+    
+        // Insert new appointment node at the end of the client's linked list
+        if (!clientPtr->head) {
+            clientPtr->head = newNode; // First appointment
+        } else {
+            AppointmentNode* temp = clientPtr->head;
+            while (temp->next) {
+                temp = temp->next; // Traverse to the end
+            }
+            temp->next = newNode; // Add at the end
+        }
     }
-
+    
+    // Function to view all appointments for all clients
     void viewAppointments() {
-
+        for (const Client& client : clients) {
+            cout << "Client: " << client.name << " | Phone: " << client.PhoneNumber << endl;
+            AppointmentNode* current = client.head;
+    
+            // If client has no appointments
+            if (!current) {
+                cout << "No appointment.\n" << endl;
+                continue;
+            }
+    
+            // Traverse and display all appointments for this client
+            while (current) {
+                const Appointment& appt = current->appt;
+                cout << "Appointment: " << appt.AppDescription << endl;
+                cout << "Date: " << appt.date.day << "/" << appt.date.month << "/" << appt.date.year << endl;
+                cout << "Time: " << appt.time.hour << ":00" << endl;
+                cout << " -------------------------------------" << endl;
+                current = current->next;
+            }
+            cout << endl;
+        }
     }
-
+    
+    // Function to view all clients sorted alphabetically by name
     void viewSortedClients() {
-
+        // Make a copy of the clients vector for sorting
+        vector<Client> sortedClients = clients;
+    
+        // Sort clients by name using a lambda function
+        sort(sortedClients.begin(), sortedClients.end(), [](const Client& a, const Client& b) {
+            return a.name < b.name;
+        });
+    
+        cout << "Sorted Clients: \n\n";
+    
+        // Display sorted client list
+        for (const Client& client : sortedClients) {
+            cout << "Name: " << client.name << " Phone: " << client.PhoneNumber << endl;
+        }
+        cout << endl;
     }
-
     void searchClients() {
 
     }
