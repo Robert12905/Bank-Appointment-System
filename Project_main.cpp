@@ -70,20 +70,20 @@ struct Client {                                                                /
 //_________________________________________________________________________________________________________________________________________
 
 class ContactNumber {
-private:
+private:        //map to store contact names as key and phone numbers as values
     map<string, string > phoneNumbers;
 public:
 
-    void addContact(const string& name, const string& phoneBook) {
+    void addContact(const string& name, const string& phoneBook) {      //add a new contact or update an existing one
         phoneNumbers[name] = phoneBook;
     }
 
-    string getPhoneNumber(const string& name) {
+    string getPhoneNumber(const string& name) {     //retrieves phone number for a given name
         auto it = phoneNumbers.find(name);
-        if (it != phoneNumbers.end()) {
+        if (it != phoneNumbers.end()) {     //if contact is found, return to the phone number
             return it->second;
         }
-        else {
+        else {      //if contact not found, return message "Contact not found"
             return "Contact not found";
         }
     }
@@ -96,7 +96,7 @@ public:
 };
 
 //_________________________________________________________________________________________________________________________________________
-                                                 
+
 class AppointmentSystem {
 private: vector<Client> clients;
 
@@ -115,7 +115,7 @@ public:
         cout << "Enter phone number: ";
         getline(cin, phone);
 
-         // Add contact to the contact book (presumably a phonebook or database)
+        // Add contact to the contact book (presumably a phonebook or database)
         contact.addContact(name, phone);
 
         cout << "Enter the appointment description: ";
@@ -127,7 +127,7 @@ public:
         cout << "Enter hour (0-23): ";
         cin >> hour;
 
-       // Initialize pointer to check if the client already exists in the system
+        // Initialize pointer to check if the client already exists in the system
         Client* clientPtr = nullptr;
 
         // Search through existing clients for a match by name and phone number
@@ -302,29 +302,29 @@ int main() {
             switch (appChoice) {
 
 
-                    //---------------------//Appointment Choices//---------------------//
+                //---------------------//Appointment Choices//---------------------//
 
 
             case 1:
                 // User chose to add a new appointment
                 cout << "Add Appointments." << endl;
 
-                    Appsystem.addAppointment(contact); // Call the method to add appointment using contact info
-                    
+                Appsystem.addAppointment(contact); // Call the method to add appointment using contact info
 
-                    break;
 
-             case 2:
+                break;
+
+            case 2:
                 // User chose to view all appointments
-                 cout << "Viewing Appointments." << endl << endl;
-                    
-                    Appsystem.viewAppointments(); // Call the method to display all appointments
+                cout << "Viewing Appointments." << endl << endl;
 
-                    break;
-                }
+                Appsystem.viewAppointments(); // Call the method to display all appointments
+
+                break;
+            }
 
             break; // Exit the outer switch after processing appointment operations
-            
+
 
             //_________________________________________________________________________________________________________________________________________
 
@@ -336,22 +336,22 @@ int main() {
             system("cls"); // Clear the console screen for a clean Clients tab display
 
             int clientChoice; // Variable to store the user's selection in the Clients tab
-            
+
             cout << "Clients Tab :" << endl << endl; // Header for the Clients section
-            
+
             cout << "Please Pick from the following:" << endl;
-            
+
             // Display the list of client management options
             cout << "1. Add Contact" << endl;        // Option to add a new contact
             cout << "2. Get Number" << endl;         // Option to retrieve a contact's phone number
             cout << "3. Remove Contact" << endl;     // Option to delete a contact
             cout << "0. Exit" << endl;               // Option to exit the Clients tab
-            
+
             cout << "Enter your choice: ";
-            
+
             cin >> clientChoice; // Get user's choice
             cin.ignore();        // Clear newline from the input buffer to avoid input issues
-            
+
             cout << endl; // Add spacing before the next output
 
             //---------------------//Client Choices//---------------------//
@@ -381,8 +381,8 @@ int main() {
                 getline(cin, name); // Get the name of the contact to remove
                 contact.removeContact(name); // Remove the contact from the system
                 cout << "Contact removed!" << endl << endl; // Confirmation message
-                
-                break;         
+
+                break;
             case 4:
                 // Optional feature: View all clients sorted alphabetically
                 // Uncomment the line below if the Clients vector is available and initialized
@@ -394,13 +394,13 @@ int main() {
             case 0:
                 // User wants to exit the program
                 cout << "You have exited the program." << endl;
-                
+
                 return 0; // Exit the program
 
             default:
                 // Handle invalid input
                 cout << "Invalid Choice. Try Again." << endl << endl;
-                
+
                 break;
             }
 
@@ -408,7 +408,7 @@ int main() {
 
         case 3:
 
-           return 0; // Redundant exit option from a higher-level menu
+            return 0; // Redundant exit option from a higher-level menu
         }
     }
 
