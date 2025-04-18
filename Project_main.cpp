@@ -107,14 +107,15 @@ public:
         string name, phone, desc;
         int day, month, year, hour;
 
-        // Get client details and appointment info from user
+        // Prompt user for client information and appointment details
         cout << "Enter client's name: ";
-        cin.ignore(); // Clear input buffer
+        cin.ignore(); // Clears leftover newline in input buffer before getline
         getline(cin, name);
 
         cout << "Enter phone number: ";
         getline(cin, phone);
 
+         // Add contact to the contact book (presumably a phonebook or database)
         contact.addContact(name, phone);
 
         cout << "Enter the appointment description: ";
@@ -126,8 +127,10 @@ public:
         cout << "Enter hour (0-23): ";
         cin >> hour;
 
-        // Search for an existing client using name and phone number
+       // Initialize pointer to check if the client already exists in the system
         Client* clientPtr = nullptr;
+
+        // Search through existing clients for a match by name and phone number
         for (auto& client : clients) {
             if (client.name == name && client.PhoneNumber == phone) {
                 clientPtr = &client;  // Found existing client
@@ -135,60 +138,62 @@ public:
             }
         }
 
-        // If client not found, create and add a new client
+        // If no match was found, create a new client and add them to the list
         if (!clientPtr) {
             Client newClient;
             newClient.name = name;
             newClient.PhoneNumber = phone;
-            clients.push_back(newClient);
-            clientPtr = &clients.back();  // Get pointer to the newly added client
-
+            clients.push_back(newClient); // Add new client to the vector
+            // Point clientPtr to the newly added client (which is now at the end)
+            clientPtr = &clients.back();
 
         }
 
-        // Create a new appointment node
+        // Create a new node for the client's appointment linked list
         AppointmentNode* newNode = new AppointmentNode{
             {hour, Date(day, month, year), {hour}, desc}, // Initialize appointment details
-            nullptr // Set next to nullptr initially
+            nullptr // Set next to nullptr, as it's going to be last
         };
         newNode->appt.date = Date(day, month, year); // Set date
         newNode->appt.time.hour = hour;              // Set hour
         newNode->appt.AppDescription = desc;         // Set description
         newNode->next = nullptr;                     // No next yet
 
-        // Insert new appointment node at the end of the client's linked list
+        // Check if this is the client's first appointment and insert a new appointment node at the end of the client's linked list
         if (!clientPtr->head) {
-            clientPtr->head = newNode; // First appointment
+            clientPtr->head = newNode; // // Set new node as head of the list
         }
         else {
+            //Otherwise, traverse the list to the last node
             AppointmentNode* temp = clientPtr->head;
             while (temp->next) {
                 temp = temp->next; // Traverse to the end
             }
-            temp->next = newNode; // Add at the end
+            temp->next = newNode; // Append the new node to the end of the list
         }
     }
 
     // Function to view all appointments for all clients
     void viewAppointments() {
+        // Loop through each client in the list
         for (const Client& client : clients) {
             cout << "Client: " << client.name << " | Phone: " << client.PhoneNumber << endl;
             AppointmentNode* current = client.head;
 
-            // If client has no appointments
+            // If the client has no appointments yet
             if (!current) {
                 cout << "No appointment.\n" << endl;
                 continue;
             }
 
-            // Traverse and display all appointments for this client
+            // Traverse and display all appointments for this client and if the client has no appointments yet
             while (current) {
                 const Appointment& appt = current->appt;
                 cout << "Appointment: " << appt.AppDescription << endl;
                 cout << "Date: " << appt.date.day << "/" << appt.date.month << "/" << appt.date.year << endl;
                 cout << "Time: " << appt.time.hour << ":00" << endl;
                 cout << " -------------------------------------" << endl;
-                current = current->next;
+                current = current->next; // Move to the next appointment
             }
             cout << endl;
         }
@@ -196,10 +201,10 @@ public:
 
     // Function to view all clients sorted alphabetically by name
     void viewSortedClients() {
-        // Make a copy of the clients vector for sorting
+        // Make a copy of the client's list so we don't alter the original order
         vector<Client> sortedClients = clients;
 
-        // Sort clients by name using a lambda function
+        // Sort the copied vector alphabetically using a lambda expression
         sort(sortedClients.begin(), sortedClients.end(), [](const Client& a, const Client& b) {
             return a.name < b.name;
             });
@@ -301,24 +306,24 @@ int main() {
 
 
             case 1:
-                    
+                // User chose to add a new appointment
                 cout << "Add Appointments." << endl;
 
-                    Appsystem.addAppointment(contact);
+                    Appsystem.addAppointment(contact); // Call the method to add appointment using contact info
                     
 
                     break;
 
              case 2:
-
+                // User chose to view all appointments
                  cout << "Viewing Appointments." << endl << endl;
                     
-                    Appsystem.viewAppointments();
+                    Appsystem.viewAppointments(); // Call the method to display all appointments
 
                     break;
                 }
 
-            break;
+            break; // Exit the outer switch after processing appointment operations
             
 
             //_________________________________________________________________________________________________________________________________________
@@ -328,69 +333,74 @@ int main() {
         case 2:
 
 
-            system("cls");
+            system("cls"); // Clear the console screen for a clean Clients tab display
 
-            int clientChoice;
-
-            cout << "Clients Tab :" << endl << endl;                           //Clients
-
-
+            int clientChoice; // Variable to store the user's selection in the Clients tab
+            
+            cout << "Clients Tab :" << endl << endl; // Header for the Clients section
+            
             cout << "Please Pick from the following:" << endl;
-
-            cout << "1. Add Contact" << endl;
-            cout << "2. Get Number" << endl;
-            cout << "3. Remove Contact" << endl;
-            cout << "0. Exit" << endl;
+            
+            // Display the list of client management options
+            cout << "1. Add Contact" << endl;        // Option to add a new contact
+            cout << "2. Get Number" << endl;         // Option to retrieve a contact's phone number
+            cout << "3. Remove Contact" << endl;     // Option to delete a contact
+            cout << "0. Exit" << endl;               // Option to exit the Clients tab
+            
             cout << "Enter your choice: ";
-
-            cin >> clientChoice;
-            cin.ignore(); // Clear newline from buffer
-
-            cout << endl;
+            
+            cin >> clientChoice; // Get user's choice
+            cin.ignore();        // Clear newline from the input buffer to avoid input issues
+            
+            cout << endl; // Add spacing before the next output
 
             //---------------------//Client Choices//---------------------//
 
 
             switch (clientChoice) {
             case 1:
+                // User wants to add a new contact
                 cout << "Enter name: ";
-                getline(cin, name);
+                getline(cin, name); // Read full name (including spaces)
                 cout << "Enter phone number: ";
-                getline(cin, number);
-                contact.addContact(name, number);
-                cout << "Contact added!" << endl << endl;
-
+                getline(cin, number); // Read full phone number
+                contact.addContact(name, number); // Add contact to the contact system
+                cout << "Contact added!" << endl << endl; // Confirmation message
 
                 break;
             case 2:
+                // User wants to retrieve a phone number
                 cout << "Enter name to search: ";
-                getline(cin, name);
-                cout << "Phone Number: " << contact.getPhoneNumber(name) << endl << endl;
-
+                getline(cin, name); // Get the name of the contact to search
+                cout << "Phone Number: " << contact.getPhoneNumber(name) << endl << endl; // Display result
 
                 break;
             case 3:
+                // User wants to remove a contact
                 cout << "Enter name to remove: ";
-                getline(cin, name);
-                contact.removeContact(name);
-                cout << "Contact removed!" << endl << endl;
-                break;
-            
+                getline(cin, name); // Get the name of the contact to remove
+                contact.removeContact(name); // Remove the contact from the system
+                cout << "Contact removed!" << endl << endl; // Confirmation message
+                
+                break;         
             case 4:
-
-                //cout << "number of clients: " << Clients.size() << endl << endl;
-
+                // Optional feature: View all clients sorted alphabetically
+                // Uncomment the line below if the Clients vector is available and initialized
+                // cout << "number of clients: " << Clients.size() << endl << endl;
                 Appsystem.viewSortedClients();
 
                 break;
 
             case 0:
+                // User wants to exit the program
                 cout << "You have exited the program." << endl;
-                return 0;
+                
+                return 0; // Exit the program
 
             default:
-
+                // Handle invalid input
                 cout << "Invalid Choice. Try Again." << endl << endl;
+                
                 break;
             }
 
@@ -398,10 +408,9 @@ int main() {
 
         case 3:
 
-            return 0;
+           return 0; // Redundant exit option from a higher-level menu
         }
     }
-
 
     return 0;
     //_________________________________________________________________________________________________________________________________________
